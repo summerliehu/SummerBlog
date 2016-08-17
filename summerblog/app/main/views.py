@@ -1,5 +1,4 @@
 from flask import render_template, session, redirect, url_for
-from datetime import datetime
 
 from . import main
 from .forms import NameForm
