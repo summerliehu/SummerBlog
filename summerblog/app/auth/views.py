@@ -6,10 +6,6 @@ from .forms import LoginForm
 
 
 
-@auth.route('/login')
-def login():
-	return render_template(auth/login.html)
-
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
 	form = LoginForm()
@@ -24,6 +20,6 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
-	login_user()
+	logout_user()
 	flash('You have been logged out!')
 	return redirect(url_for('main.index'))
