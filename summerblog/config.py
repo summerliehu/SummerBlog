@@ -5,8 +5,15 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config():
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'This is your secret_key'
 	SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+	
 	FLASKY_MAIL_SUBJECT_PREFIX = '[SummerBlog]'
 	FLASKY_MAIL_SENDER = 'SummerBlog Admin <admin@summerblog.com>'
+	MAIL_SERVER = 'localhost'
+	MAIL_PORT = 25
+	MAIL_USE_TLS = False
+	MAIL_USERNAME = ""
+	MAIL_PASSWORD = ""
+	
 	FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
 
 	@staticmethod
@@ -15,11 +22,6 @@ class Config():
 
 class DevelopmentConfig(Config):
 	DEBUG = True
-	MAIL_SERVER = localhost
-	MAIL_PORT = 25
-	MAIL_USE_TLS = False
-	MAIL_USERNAME = ""
-	MAIL_PASSWORD = ""
 	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
 	'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
