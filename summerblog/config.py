@@ -7,12 +7,12 @@ class Config():
 	SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 	
 	FLASKY_MAIL_SUBJECT_PREFIX = '[SummerBlog]'
-	FLASKY_MAIL_SENDER = 'SummerBlog Admin <admin@summerblog.com>'
-	MAIL_SERVER = 'localhost'
+	FLASKY_MAIL_SENDER = 'SummerBlog Admin <test_flask2@sina.com>'
+	MAIL_SERVER = 'smtp.sina.com'
 	MAIL_PORT = 25
 	MAIL_USE_TLS = False
-	MAIL_USERNAME = ""
-	MAIL_PASSWORD = ""
+	MAIL_USERNAME = "test_flask2"
+	MAIL_PASSWORD = "testflask"
 	
 	FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
 
