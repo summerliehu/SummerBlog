@@ -69,6 +69,15 @@ class User(UserMixin, db.Model):
 		return self.role is not None and \
 			(self.role.permissions & permissions) == permissions
 	def is_administrator(self):
+		return self.can(Permission.ADMINISTER)
+
+class AnonymousUser(AnonymoususerMixin):
+	def can (self, permissions):
+		return False
+	def is_administrator(self):
+		return False
+
+login_manager.anonymous_user = AnonymousUser
 
 class Permission():
 	FOLLOW = 0x01
