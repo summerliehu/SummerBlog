@@ -1,7 +1,7 @@
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask_login import UserMixin, AnonymoususerMixin
+from flask_login import UserMixin, AnonymousUserMixin
 from flask import current_app
 from . import login_manager
 
@@ -71,7 +71,7 @@ class User(UserMixin, db.Model):
 	def is_administrator(self):
 		return self.can(Permission.ADMINISTER)
 
-class AnonymousUser(AnonymoususerMixin):
+class AnonymousUser(AnonymousUserMixin):
 	def can (self, permissions):
 		return False
 	def is_administrator(self):
@@ -92,15 +92,14 @@ def load_user(user_id):
 @staticmethod
 def insert_roles():
 	roles = {
-		'User':(Permission.FOLLOW |
+		'User': (Permission.FOLLOW |
 				Permission.COMMENT |
-				Permission.WRITE_ARTICLES, True)
-		'Moderator':(
-				Permission.FOLLOW |
+				Permission.WRITE_ARTICLES, True),
+		'Moderator': (Permission.FOLLOW |
 				Permission.COMMENT |
 				Permission.WRITE_ARTICLES |
-				Permission.MODERATE_COMMENTS, False)
-		'Administrator':(0xff, False)
+				Permission.MODERATE_COMMENTS, False),
+		'Administrator': (0xff, False)
 	}
 	for r in roles:
 		role = Role.query.filter_by(name=r).first()
