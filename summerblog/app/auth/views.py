@@ -93,7 +93,7 @@ def change_password():
 	return render_template("auth/change_password.html", form=form)
 
 #如果忘记密码，要重置密码。已经登录的用户不能重置密码，只有匿名用户可以重置密码。重置密码要输入注册邮箱，如果邮箱没有通过验证，则
-#重新加载页面，如果有想通过验证，就发送重置专用的令牌到邮箱中。
+#重新加载页面，如果有想通过验证，就发送重置专用的令牌到邮箱中。点击邮件中的链接，将访问url_for(password_reset)
 @auth.route('/reset', methods=['GET', 'POST'])
 def password_reset_request():
 	if not current_user.is_anonymous:
@@ -112,7 +112,7 @@ def password_reset_request():
 		return redirect(url_for('auth.login'))
 	return render_template('auth/reset_password.html', form=form)
 
-
+#必须匿名访问。首先验证token是否一致，如果一致则允许更新密码，即调用User类的reset_password()函数来重设密码。
 @auth.route('/reset/<token>', methods=['GET', 'POST'])
 def password_reset(token):
 	if not current_user.is_anonymous:
