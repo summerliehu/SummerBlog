@@ -69,13 +69,15 @@ def before_request():
 	and request.endpoint != 'static':
 		return redirect(url_for('auth.unconfirmed'))
 
+#如果用户已经登录但是没有验证邮箱，那么将会被重定向到这个页面
 @auth.route('/unconfirmed')
 def unconfirmed():
 	if current_user.is_anonymous or current_user.confirmed:
 		return redirect(url_for('main.index'))
 	return render_template('auth/unconfirmed.html')
 
-
+#更改密码，首先要输入旧的密码，如果输入的旧密码的hash与存储的hash一致，那么就更新密码，如果旧密码不一致或者表单没有正确提交
+#那么点击之后就重新加载页面
 @auth.route('/change-password', methods=['GET', 'POST'])
 @login_required
 def change_password():
@@ -90,7 +92,8 @@ def change_password():
 			flash('Invalid password.')
 	return render_template("auth/change_password.html", form=form)
 
-
+#如果忘记密码，要重置密码。已经登录的用户不能重置密码，只有匿名用户可以重置密码。重置密码要输入注册邮箱，如果邮箱没有通过验证，则
+#重新加载页面，如果有想通过验证，就发送重置专用的令牌到邮箱中。
 @auth.route('/reset', methods=['GET', 'POST'])
 def password_reset_request():
 	if not current_user.is_anonymous:
