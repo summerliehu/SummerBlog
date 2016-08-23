@@ -5,5 +5,16 @@
 {% block page_content %}
 <div class="page-header">
     <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
+    {% if not current_user.is_administrator() %}
+    <p>
+    You are not administrator!
+    </p>
+    {% endif %}
+
+    {% if current_user.is_administrator() %}
+    <p>
+    You are administrator!
+    </p>    
+    {% endif %}
 </div>
 {% endblock %}

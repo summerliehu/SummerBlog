@@ -14,7 +14,7 @@ class Config():
 	MAIL_USERNAME = "test_flask2"
 	MAIL_PASSWORD = "testflask"
 	
-	FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN') or 'summerblog@sina.com'
+	FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN') or 'test_flask2@sina.com'
 
 	@staticmethod
 	def init_app(app):
