@@ -63,5 +63,5 @@ class ChangeEmailForm(Form):
 	submit = SubmitField('Update Email Address')
 
 	def validate_email(self, field):
-        if User.query.filter_by(email=field.data).first():
-            raise ValidationError('Email already registered.')
+		if User.query.filter_by(email=field.data).first():
+			raise ValidationError('Email already registered.')
