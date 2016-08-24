@@ -6,6 +6,7 @@ from .forms import LoginForm, RegisterationForm, ChangePasswordForm, \
 	PasswordResetRequestForm, PasswordResetForm, ChangeEmailForm
 from .. import db
 from ..email import send_email
+from ..models import Permission
 
 
 @auth.route('/login', methods=['GET', 'POST'])

@@ -2,9 +2,11 @@ from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask_login import UserMixin, AnonymousUserMixin
-from flask import current_app
+from flask import current_app, request
 from . import login_manager
 from datetime import datetime
+import hashlib
+
 class Role(db.Model):
 	__tablename__ = 'roles'
 	id = db.Column(db.Integer, primary_key=True)
@@ -44,6 +46,7 @@ class User(UserMixin, db.Model):
 	email = db.Column(db.String(64), unique=True, index=True)
 	username = db.Column(db.String(64), unique=True, index=True)
 	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+	posts = db.relationship('Post', backref='author', lazy='dynamic')
 	password_hash = db.Column(db.String(128))
 	name = db.Column(db.String(64))
 	location = db.Column(db.String(64))
@@ -140,13 +143,30 @@ class User(UserMixin, db.Model):
 		self.last_seen = datetime.utcnow()
 		db.session.add(self)
 
+	# get gravatar image
+	def gravatar(self, size=100, default='identicon', rating='g'):
+		if request.is_secure:
+			url = "https://secure.gravatar.com/avatar"
+		else:
+			url = "http://www.gravatar.com/avatar"
+		hash = hashlib.md5(self.email.encode('utf-8')).hexdigest()
+		return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(\
+			url=url, hash=hash, size=size, default=default, rating=rating)
+
+
 class AnonymousUser(AnonymousUserMixin):
 	def can (self, permissions):
 		return False
 	def is_administrator(self):
 		return False
-
 login_manager.anonymous_user = AnonymousUser
+
+class Post(db.Model):
+	__tablename__ = 'posts'
+	id = db.Column(db.Integer, primary_key=True)
+	body = db.Column(db.Text)
+	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+	author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 class Permission():
 	FOLLOW = 0x01
@@ -158,3 +178,4 @@ class Permission():
 @login_manager.user_loader
 def load_user(user_id):
 	return User.query.get(int(user_id))
+
