@@ -90,4 +90,4 @@ ENV/
 
 # Database file
 *.sqlite
-
+/summerblog/migrations/
