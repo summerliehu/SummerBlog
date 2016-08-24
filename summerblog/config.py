@@ -13,6 +13,7 @@ class Config():
 	MAIL_USE_TLS = False
 	MAIL_USERNAME = "test_flask2"
 	MAIL_PASSWORD = "testflask"
+	FLASKY_POSTS_PER_PAGE = 10
 	
 	FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN') or 'test_flask2@sina.com'
 
