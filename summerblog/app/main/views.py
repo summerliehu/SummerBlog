@@ -16,6 +16,10 @@ def index():
 	posts = pagination.items
 	return render_template('index.html', posts=posts, pagination=pagination)
 
+@main.route('/about')
+def about():
+	return render_template('about.html')
+
 @main.route('/user/<username>')
 def user(username):
 	user = User.query.filter_by(username=username).first()
