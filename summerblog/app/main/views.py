@@ -6,6 +6,7 @@ from .forms import EditProfileForm, EditProfileAdminForm, PostForm
 from flask_login import login_required, current_user
 from .. import db
 from ..decorators import admin_required
+from flask import Markup
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -77,7 +78,6 @@ def post(id):
 	return render_template('post.html', posts=[post])
 
 @login_required
-@admin_required
 @main.route('/edit-post/<int:id>', methods=['GET', 'POST'])
 def edit_post(id):
 	post = Post.query.get_or_404(id)
@@ -92,14 +92,22 @@ def edit_post(id):
 	form.title.data = post.title
 	form.body.data = post.body
 	return render_template('edit_post.html', form=form, post=post, user=user)
+
+@login_required
 @main.route('/delete-post/<int:id>')
 def delete_post(id):
 	post = Post.query.get_or_404(id)
-	post.delete_post()	
-	return redirect(request.args.get('next') or url_for('main.index'))
+	#this is a bug, that anyone logged in could delete others post by modifing GET args!!!
+	if current_user == post.author or current_user.is_administrator():
+		post.delete_post()	
+		return redirect(request.args.get('next') or url_for('main.index'))
+	else:
+		abort(403)
 
-
+@login_required
+@admin_required
 @main.route('/blog-admin', methods=['GET', 'POST'])
 def blog_admin():
+	next=url_for('main.blog_admin')
 	posts = Post.query.order_by(Post.timestamp.desc()).all()
-	return render_template('blog_admin.html', posts=posts)
+	return render_template('blog_admin.html', **locals())
