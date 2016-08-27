@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}SumemrBlog - Edit post{% endblock %}
+
+{% block page_content %}
+{% if current_user.is_administrator() or current_user == user %}
+<div class="page-header">
+    <h1>Edit your post:</h1>
+</div>
+<div>
+    {{ wtf.quick_form(form) }}
+
+</div>
+{{ else }}
+<p>You do not have authority to edit this post!</p>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ pagedown.include_pagedown() }}
+{% endblock %}

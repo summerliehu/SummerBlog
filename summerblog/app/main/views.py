@@ -75,3 +75,24 @@ def edit_profile_admin(id):
 def post(id):
 	post = Post.query.get_or_404(id)
 	return render_template('post.html', posts=[post])
+
+@login_required
+@admin_required
+@main.route('/edit-post/<int:id>', methods=['GET', 'POST'])
+def edit_post(id):
+	post = Post.query.get_or_404(id)
+	user = post.author
+	form = PostForm()
+	if current_user.is_administrator() and \
+	form.validate_on_submit():
+		post = Post(title=form.title.data, body=form.body.data, author=current_user._get_current_object())
+		db.session.add(post)
+		return redirect(url_for('.post'))
+	form.title.data = post.title
+	form.body.data = post.body
+	return render_template('edit_post.html', form=form, post=post, user=user)
+
+@main.route('/blog-admin', methods=['GET', 'POST'])
+def blog_admin():
+	posts = Post.query.order_by(Post.timestamp.desc()).all()
+	return render_template('blog_admin.html', posts=posts)
