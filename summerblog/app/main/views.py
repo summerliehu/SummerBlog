@@ -85,12 +85,19 @@ def edit_post(id):
 	form = PostForm()
 	if current_user.is_administrator() and \
 	form.validate_on_submit():
-		post = Post(title=form.title.data, body=form.body.data, author=current_user._get_current_object())
+		post = Post(title=form.title.data, body=form.body.data, 
+			author=current_user._get_current_object())
 		db.session.add(post)
 		return redirect(url_for('.post'))
 	form.title.data = post.title
 	form.body.data = post.body
 	return render_template('edit_post.html', form=form, post=post, user=user)
+@main.route('/delete-post/<int:id>')
+def delete_post(id):
+	post = Post.query.get_or_404(id)
+	post.delete_post()	
+	return redirect(request.args.get('next') or url_for('main.index'))
+
 
 @main.route('/blog-admin', methods=['GET', 'POST'])
 def blog_admin():

@@ -181,6 +181,11 @@ class Post(db.Model):
 			markdown(value, output_format='html'),
 			tags=allowed_tags, strip=True))
 
+	def delete_post(self):
+		db.session.delete(self)
+		db.session.commit()
+
+
 db.event.listen(Post.body, 'set', Post.on_changed_body)
 
 class Permission():
