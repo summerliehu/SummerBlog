@@ -43,5 +43,6 @@ class EditProfileAdminForm(Form):
 			raise ValidationError('Username already in use.')
 
 class PostForm(Form):
+	title = StringField("Please input title", validators=[Required()])
 	body = PageDownField("What is on your mind?", validators=[Required()])
 	submit = SubmitField('Submit')
