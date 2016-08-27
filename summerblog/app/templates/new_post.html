@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}SummerBlog - New post{% endblock %}
+
+{% block page_content %}
+    <div>
+        {% if current_user.can(Permission.WRITE_ARTICLES) %}
+        {{ wtf.quick_form(form)}}
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ pagedown.include_pagedown() }}
+{% endblock %}

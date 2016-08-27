@@ -6,6 +6,7 @@
 {% block page_content %}
 
 <div>
+	<a href="{{ url_for('main.new_post') }}">New post</a>
 	<ul>
 	{% for post in posts %}
 		<li>
