@@ -180,7 +180,7 @@ class Post(db.Model):
 						'h1', 'h2', 'h3', 'h4', 'p']
 		target.body_html = bleach.linkify(bleach.clean(
 			markdown(value, output_format='html'),
-			tags=allowed_tags, strip=True))
+			tags=allowed_tags))
 
 	def delete_post(self):
 		db.session.delete(self)
@@ -197,7 +197,6 @@ class Category(db.Model):
 	def delete_category(self):
 		db.session.delete(self)
 		db.session.commit()
-		
 class Permission():
 	FOLLOW = 0x01
 	COMMENT = 0x02

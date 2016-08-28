@@ -4,7 +4,7 @@
 {% block title %}SumemrBlog - Edit post{% endblock %}
 
 {% block page_content %}
-{% if current_user.is_administrator() or current_user == user %}
+{% if current_user.is_administrator()%}
 <div class="page-header">
     <h1>Edit your post:</h1>
 </div>

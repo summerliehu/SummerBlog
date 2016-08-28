@@ -1,7 +1,7 @@
 from flask_wtf import Form
 from wtforms import StringField, SubmitField, TextAreaField, BooleanField, SelectField
 from wtforms.validators import Required, Length, Email, Regexp, EqualTo
-from ..models import Role
+from ..models import Role, Category
 from flask_pagedown.fields import PageDownField
 
 class NameForm(Form):
@@ -45,7 +45,13 @@ class EditProfileAdminForm(Form):
 class PostForm(Form):
 	title = StringField("Please input title", validators=[Required()])
 	body = PageDownField("What is on your mind?", validators=[Required()])
+	category = SelectField('Category', coerce=int)
 	submit = SubmitField('Submit')
+
+	def __init__ (self):
+		super(PostForm, self).__init__()
+		self.category.choices = [(category.id, category.category_name) \
+			for category in Category.query.order_by(Category.id).all()]
 
 class EditCategoryForm(Form):
 	category_name = StringField('Input category name:', validators=[Required()])

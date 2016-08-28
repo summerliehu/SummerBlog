@@ -84,10 +84,10 @@ def edit_post(id):
 	form = PostForm()
 	if current_user.is_administrator() and \
 	form.validate_on_submit():
-		post = Post(title=form.title.data, body=form.body.data, 
-			author=current_user._get_current_object())
+		post.title = form.title.data
+		post.body=form.body.data
 		db.session.add(post)
-		return redirect(url_for('.post'))
+		return redirect(url_for('.post', id=id ))
 	form.title.data = post.title
 	form.body.data = post.body
 	return render_template('edit_post.html', form=form, post=post, user=user)
@@ -122,7 +122,7 @@ def edit_category(id):
 	editCategoryForm = EditCategoryForm()
 	if current_user.is_administrator() and \
 	editCategoryForm.validate_on_submit():
-		category = Category(category_name=editCategoryForm.category_name.data)
+		category.category_name = editCategoryForm.category_name.data
 		db.session.add(category)
 		return redirect(url_for('main.blog_admin'))
 	editCategoryForm.category_name.data = category.category_name
