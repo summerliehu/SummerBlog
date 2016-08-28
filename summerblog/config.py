@@ -16,7 +16,7 @@ class Config():
 	MAIL_PASSWORD = "testflask"
 	FLASKY_POSTS_PER_PAGE = 10
 	
-	FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN') or 'test_flask2@sina.com'
+	FLASKY_ADMIN = os.environ.get('SUMMERBLOG_ADMIN') or 'test_flask2@sina.com'
 
 	@staticmethod
 	def init_app(app):

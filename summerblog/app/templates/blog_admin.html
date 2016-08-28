@@ -1,20 +1,99 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "bootstrap/base.html" %}
 
-{% block title %}Admin Panel{% endblock %}
+{% block title %}Summer's Blog{% endblock %}
 
-{% block page_content %}
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+{% endblock %}
 
-<div>
-	<a href="{{ url_for('main.new_post') }}">New post</a>
-	<ul>
-	{% for post in posts %}
-		<li>
-		{{ post.title }}<a href="{{ url_for('.edit_post', id=post.id )}}">Edit</a><a href="{{ url_for('main.delete_post', id=post.id, next=next, current_id=current_user.id ) }}"><button type="button" class="btn btn-sm btn-danger" >Delete</button></a>
-		</li>
-	{% endfor %}
-	</ul>
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">Logo</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('main.about') }}">About me</a></li>
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('main.user', username=current_user.username)}}">
+                Profile</a></li>
+                {% endif %}
+                {% if current_user.is_administrator() or current_user == user %}
+                <li><a href="{{ url_for('main.blog_admin')}}">Admin Panel</a></li>\
+                     {% endif %}       
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
+                        <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+                <li><a href="{{ url_for('auth.register') }}">or Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<h1 class="blog-title">Admin Panel</h1>
+		<hr>
+		{% for message in get_flashed_messages() %}
+		<div class="alert alert-warning">
+	 		<button type="button" class="close" data-dismiss="alert">&times;</button>
+			{{ message }}
+	    </div>
+	    {% endfor %}
+		<div>
+			<a href="{{ url_for('main.new_post') }}"><button type="button" class="btn btn-sm btn-default">New post</button></a>
+			<hr>
+		</div>
+
+		<table class="table table-striped">
+			<tbody>
+				{% for post in posts %}
+				<tr>
+				<td>
+					<a href="{{ url_for('main.edit_post', id=post.id) }}"><button type="button" class="btn btn-sm btn-primary" >Edit</button></a>
+
+					<a href="{{ url_for('main.delete_post', id=post.id, next=next, current_id=current_user.id ) }}"><button type="button" class="btn btn-sm btn-danger" >Delete</button></a>
+				{{ post.title }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		
+	</div>
+
+
+
+    {% block footer %}
+        {% include "_footer.html" %}
+    {% endblock %}
 
 {% endblock %}
 
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}
