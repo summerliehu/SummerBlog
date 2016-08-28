@@ -118,6 +118,13 @@ def delete_post(id):
 @admin_required
 @main.route('/blog-admin', methods=['GET', 'POST'])
 def blog_admin():
+	page = request.args.get('page', 1, type=int)
 	next=url_for('main.blog_admin')
-	posts = Post.query.order_by(Post.timestamp.desc()).all()
+	#posts = Post.query.order_by(Post.timestamp.desc()).all()
+	pagination = Post.query.order_by(Post.timestamp.desc()).paginate(\
+		page, per_page=10, error_out=False)
+	posts = pagination.items
 	return render_template('blog_admin.html', **locals())
+
+
+

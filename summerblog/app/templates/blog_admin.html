@@ -1,4 +1,5 @@
 {% extends "bootstrap/base.html" %}
+{% import '_macros.html' as macros %}
 
 {% block title %}Summer's Blog{% endblock %}
 
@@ -71,6 +72,13 @@
 
 		<table class="table table-striped">
 			<tbody>
+				<nav>
+					{% if pagination %}
+					<div class="pagination">
+					{{ macros.pagination_widget(pagination, '.blog_admin') }}
+					</div>
+					{% endif %}
+				</nav>
 				{% for post in posts %}
 				<tr>
 				<td>
@@ -81,11 +89,9 @@
 				</tr>
 				{% endfor %}
 			</tbody>
+
 		</table>
-		
 	</div>
-
-
 
     {% block footer %}
         {% include "_footer.html" %}
