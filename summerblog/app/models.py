@@ -171,6 +171,7 @@ class Post(db.Model):
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 	author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	body_html = db.Column(db.Text)
+	category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
 
 	@staticmethod
 	def on_changed_body(target, value, oldvalue, initiator):
@@ -185,9 +186,18 @@ class Post(db.Model):
 		db.session.delete(self)
 		db.session.commit()
 
-
 db.event.listen(Post.body, 'set', Post.on_changed_body)
 
+class Category(db.Model):
+	__tablename__ = 'categories'
+	id = db.Column(db.Integer, primary_key=True)
+	category_name = db.Column(db.Text)
+	posts = db.relationship('Post', backref='category')
+
+	def delete_category(self):
+		db.session.delete(self)
+		db.session.commit()
+		
 class Permission():
 	FOLLOW = 0x01
 	COMMENT = 0x02

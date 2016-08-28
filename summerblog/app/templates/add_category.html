@@ -66,50 +66,9 @@
 			{{ message }}
 	    </div>
 	    {% endfor %}
-		<div>
-			<a href="{{ url_for('main.new_post') }}"><button type="button" class="btn btn-sm btn-default">New post</button></a>
-			<hr>
-		</div>
-
-		<table class="table table-striped">
-			<tbody>
-				<nav>
-					{% if pagination %}
-					<div class="pagination">
-					{{ macros.pagination_widget(pagination, '.blog_admin') }}
-					</div>
-					{% endif %}
-				</nav>
-				{% for post in posts %}
-				<tr>
-				<td>
-					<a href="{{ url_for('main.edit_post', id=post.id) }}"><button type="button" class="btn btn-sm btn-primary" >Edit</button></a>
-
-					<a href="{{ url_for('main.delete_post', id=post.id, next=next, current_id=current_user.id ) }}"><button type="button" class="btn btn-sm btn-danger" >Delete</button></a>
-				{{ post.title }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-
-		</table>
 
 		<div class="row">
-  			<div class="col-md-3">{{ wtf.quick_form(addCategoryForm) }}</div>
-  			<div class="col-md-5">
-			<table class="table table-striped">
-				<tbody>
-  					{% for category in categories %}
-					<tr>
-					<td>
-						<a href="{{ url_for('main.edit_category', id=category.id) }}"><button type="button" class="btn btn-sm btn-primary" >Edit</button></a>
-
-						<a href="{{ url_for('main.delete_category', id=category.id, next=next, current_id=current_user.id ) }}"><button type="button" class="btn btn-sm btn-danger" >Delete</button></a>
-						{{ category.category_name }}
-					</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-
+  			<div class="col-md-3">{{ wtf.quick_form(editCategoryForm) }}</div>
 			</table>
 
 
@@ -125,7 +84,4 @@
 
 {% endblock %}
 
-{% block scripts %}
-{{ super() }}
-{{ moment.include_moment() }}
-{% endblock %}
+

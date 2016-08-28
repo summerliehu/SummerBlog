@@ -46,3 +46,7 @@ class PostForm(Form):
 	title = StringField("Please input title", validators=[Required()])
 	body = PageDownField("What is on your mind?", validators=[Required()])
 	submit = SubmitField('Submit')
+
+class EditCategoryForm(Form):
+	category_name = StringField('Input category name:', validators=[Required()])
+	submit_category = SubmitField('Submit')

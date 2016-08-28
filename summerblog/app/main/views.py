@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, flash, abort, request, \
 	current_app
 from . import main
-from ..models import User, Role, Permission, Post
-from .forms import EditProfileForm, EditProfileAdminForm, PostForm
+from ..models import User, Role, Permission, Post, Category
+from .forms import EditProfileForm, EditProfileAdminForm, PostForm, EditCategoryForm
 from flask_login import login_required, current_user
 from .. import db
 from ..decorators import admin_required
@@ -116,14 +116,46 @@ def delete_post(id):
 
 @login_required
 @admin_required
+@main.route('/delete-category/<int:id>', methods=['GET', 'POST'])
+def edit_category(id):
+	category = Category.query.get_or_404(id)
+	editCategoryForm = EditCategoryForm()
+	if current_user.is_administrator() and \
+	editCategoryForm.validate_on_submit():
+		category = Category(category_name=editCategoryForm.category_name.data)
+		db.session.add(category)
+		return redirect(url_for('main.blog_admin'))
+	editCategoryForm.category_name.data = category.category_name
+	return render_template('edit_category.html', **locals())
+
+@login_required
+@admin_required
+@main.route('/delete-category/<int:id>')
+def delete_category(id):
+	category = Category.query.get_or_404(id)
+	if current_user.is_administrator():
+		category.delete_post()	
+		return redirect(request.args.get('next') or url_for('main.blog_admin'))
+	else:
+		abort(403)
+
+@login_required
+@admin_required
 @main.route('/blog-admin', methods=['GET', 'POST'])
 def blog_admin():
+	addCategoryForm = EditCategoryForm()
+	categories = Category.query.order_by(Category.id.desc()).all()
 	page = request.args.get('page', 1, type=int)
 	next=url_for('main.blog_admin')
 	#posts = Post.query.order_by(Post.timestamp.desc()).all()
 	pagination = Post.query.order_by(Post.timestamp.desc()).paginate(\
 		page, per_page=10, error_out=False)
 	posts = pagination.items
+	if current_user.is_administrator() and \
+	addCategoryForm.validate_on_submit():
+		category = Category(category_name=addCategoryForm.category_name.data)
+		db.session.add(category)
+		return redirect(url_for('.blog_admin'))
 	return render_template('blog_admin.html', **locals())
 
 
