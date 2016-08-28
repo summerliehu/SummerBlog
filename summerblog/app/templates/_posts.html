@@ -9,13 +9,13 @@
             </div>
             <div class="post-body">
             <h3>{{ post.title }}</h3>
-            <a href="{{ url_for('.post', id=post.id )}}">
+            <p>
             {% if post.body_html %}
                 {{ post.body_html | safe }}
             {% else %}
                 {{ post.body }}
             {% endif %}
-            </a>
+            </p>
             </div>
         </li>
         {% endfor %}

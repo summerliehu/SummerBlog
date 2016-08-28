@@ -5,7 +5,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config():
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'This is your secret_key'
 	SQLALCHEMY_COMMIT_ON_TEARDOWN = True
-	
+	INDEX_BODY_LENGTH = 500
+
 	FLASKY_MAIL_SUBJECT_PREFIX = '[SummerBlog]'
 	FLASKY_MAIL_SENDER = 'SummerBlog Admin <test_flask2@sina.com>'
 	MAIL_SERVER = 'smtp.sina.com'

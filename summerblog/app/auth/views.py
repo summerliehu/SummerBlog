@@ -39,7 +39,8 @@ def register():
 		token = user.generate_confirmation_token()
 		send_email(user.email, 'Confirm Your Account', 'auth/email/confirm', 
 			user=user, token=token)
-		flash('You have sucessfully registered, you can now login!')
+		flash('You have sucessfully registered, a onfirmation email has been sent' + \
+			' to you, you can now login and check the email to confirm your email address!')
 		return redirect(url_for('auth.login'))
 	return render_template('auth/register.html', form=form)
 
