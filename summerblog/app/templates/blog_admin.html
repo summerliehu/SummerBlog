@@ -90,36 +90,58 @@
 				</tr>
 				{% endfor %}
 			</tbody>
-
 		</table>
 		<hr>
+<!-- Categary management -->
 		<div class="row">
 			<div><p>Category management:</p></div>
 			<hr>
   			<div class="col-md-3">{{ wtf.quick_form(addCategoryForm) }}</div>
   			<div class="col-md-5">
-			<table class="table table-striped">
-				<p>Category list</p>
-				<tbody>
-  					{% for category in categories %}
-					<tr>
-					<td>
-						<a href="{{ url_for('main.edit_category', id=category.id) }}"><button type="button" class="btn btn-sm btn-primary" >Edit</button></a>
+				<table class="table table-striped">
+					<p>Category list</p>
+					<tbody>
+	  					{% for category in categories %}
+						<tr>
+						<td>
+							<a href="{{ url_for('main.edit_category', id=category.id) }}"><button type="button" class="btn btn-sm btn-primary" >Edit</button></a>
 
-						<a href="{{ url_for('main.delete_category', id=category.id, next=next, current_id=current_user.id ) }}"><button type="button" class="btn btn-sm btn-danger" >Delete</button></a>
-						{{ category.category_name }}
-					</td>
-					</tr>
-					{% endfor %}
-				</tbody>
+							<a href="{{ url_for('main.delete_category', id=category.id, next=next, current_id=current_user.id ) }}"><button type="button" class="btn btn-sm btn-danger" >Delete</button></a>
+							{{ category.category_name }}
+						</td>
+						</tr>
+						{% endfor %}
+					</tbody>
 
-			</table>
-
-
+				</table>
   			</div>
   			<div class="col-md-4">.col-md-4</div>
 		</div>
+<!-- Tag management -->
+		<div class="row">
+			<div><p>Tag management:</p></div>
+			<hr>
+  			<div class="col-md-3">tag form</div>
+  			<div class="col-md-5">
+				<table class="table table-striped">
+					<p>Category list</p>
+					<tbody>
+	  					{% for category in categories %}
+						<tr>
+						<td>
+							<a href="{{ url_for('main.edit_category', id=category.id) }}"><button type="button" class="btn btn-sm btn-primary" >Edit</button></a>
 
+							<a href="{{ url_for('main.delete_category', id=category.id, next=next, current_id=current_user.id ) }}"><button type="button" class="btn btn-sm btn-danger" >Delete</button></a>
+							{{ category.category_name }}
+						</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+
+				</table>
+  			</div>
+  			<div class="col-md-4">.col-md-4</div>
+		</div>
 	</div>
 
     {% block footer %}
