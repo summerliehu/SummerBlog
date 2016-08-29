@@ -173,11 +173,15 @@ def delete_tag(id):
 	if current_user.is_administrator():
 		for post in tag.posts.all():
 			tag.posts.remove(post)
-			db.session.add(tag)
-			db.session.commit()
-			db.session.delete(tag)
-			db.session.add(tag)
-			db.session.commit()
+		db.session.add(tag)
+		db.session.commit()
+		for post in Post.query.all():
+			post.tags.remove(tag)
+		db.session.add(post)
+		db.session.commit()
+		db.session.delete(tag)
+		db.session.add(tag)
+		db.session.commit()
 		return redirect(request.args.get('next') or url_for('main.blog_admin'))
 	else:
 		abort(403)
