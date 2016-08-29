@@ -129,9 +129,9 @@
 	  					{% for tag in tags %}
 						<tr>
 						<td>
-							<a href="{{ url_for('main.edit_category', id=tag.id) }}"><button type="button" class="btn btn-sm btn-primary" >Edit</button></a>
+							<a href="{{ url_for('main.edit_tag', id=tag.id) }}"><button type="button" class="btn btn-sm btn-primary" >Edit</button></a>
 
-							<a href="{{ url_for('main.delete_category', id=tag.id, next=next, current_id=current_user.id ) }}"><button type="button" class="btn btn-sm btn-danger" >Delete</button></a>
+							<a href="{{ url_for('main.delete_tag', id=tag.id, next=next, current_id=current_user.id ) }}"><button type="button" class="btn btn-sm btn-danger" >Delete</button></a>
 							{{ tag.tag_name }}
 						</td>
 						</tr>

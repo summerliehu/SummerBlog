@@ -44,8 +44,9 @@ class EditProfileAdminForm(Form):
 
 class PostForm(Form):
 	title = StringField("Please input title", validators=[Required()])
-	body = PageDownField("What is on your mind?", validators=[Required()])
 	category = SelectField('Category', coerce=int)
+	add_tags = StringField('Add tags, split by space')
+	body = PageDownField("What is on your mind?", validators=[Required()])
 	submit = SubmitField('Submit')
 
 	def __init__ (self):

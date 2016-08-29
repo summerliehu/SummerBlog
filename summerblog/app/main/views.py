@@ -89,6 +89,21 @@ def edit_post(id):
 		post.body=form.body.data
 		post.category = Category.query.get(form.category.data)
 		db.session.add(post)
+		db.session.commit()
+		addtags = form.add_tags.data.split(" ")
+		for tag in addtags:
+			if Tag.query.filter_by(tag_name=tag):
+				oldtag = Tag.query.filter_by(tag_name=tag).first()
+				post.tags.append(oldtag)
+				db.session.add(post)
+				db.session.commit()
+			else:
+				newtag = Tag(tag_name=tag)
+				db.session.add(newtag)
+				db.session.commit()
+				post.tags.append(newtag)
+				db.session.add(post)
+				db.session.commit()
 		return redirect(url_for('.post', id=id ))
 	form.title.data = post.title
 	form.body.data = post.body
@@ -141,6 +156,29 @@ def delete_category(id):
 		category.delete_category()	
 		#return redirect(request.args.get('next') or url_for('main.blog_admin'))
 		return redirect(url_for('main.blog_admin'))
+	else:
+		abort(403)
+
+@login_required
+@admin_required
+@main.route('/edit-tag/<int:id>', methods=['GET', 'POST'])
+def edit_tag(id):
+	pass
+
+@login_required
+@admin_required
+@main.route('/delete-tag/<int:id>')
+def delete_tag(id):
+	tag = Tag.query.get_or_404(id)
+	if current_user.is_administrator():
+		for post in tag.posts.all():
+			tag.posts.remove(post)
+			db.session.add(tag)
+			db.session.commit()
+			db.session.delete(tag)
+			db.session.add(tag)
+			db.session.commit()
+		return redirect(request.args.get('next') or url_for('main.blog_admin'))
 	else:
 		abort(403)
 

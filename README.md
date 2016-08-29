@@ -41,3 +41,7 @@ python manage.py db upgrade
 ```
 程序运行界面如下所示：
 ![screenshot](https://raw.githubusercontent.com/summerliehu/SummerBlog/master/screen.png)
+
+BUGS:
+
+1. error occors when trying to delete a tag: StaleDataError: DELETE statement on table 'tags_to_posts' expected to delete 1 row(s); Only 2 were matched.
