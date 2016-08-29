@@ -178,9 +178,8 @@ class Post(db.Model):
 		allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code', 
 						'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul', 
 						'h1', 'h2', 'h3', 'h4', 'p']
-		target.body_html = bleach.linkify(bleach.clean(
-			markdown(value, output_format='html'),
-			tags=allowed_tags))
+		target.body_html = bleach.linkify(bleach.clean(markdown(value, \
+			output_format='html'),tags=allowed_tags, strip=True))
 
 	def delete_post(self):
 		db.session.delete(self)
@@ -192,7 +191,7 @@ class Category(db.Model):
 	__tablename__ = 'categories'
 	id = db.Column(db.Integer, primary_key=True)
 	category_name = db.Column(db.Text)
-	posts = db.relationship('Post', backref='category')
+	posts = db.relationship('Post', backref='category', lazy='dynamic')
 
 	def delete_category(self):
 		db.session.delete(self)

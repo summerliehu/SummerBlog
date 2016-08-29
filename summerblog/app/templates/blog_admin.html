@@ -73,13 +73,13 @@
 
 		<table class="table table-striped">
 			<tbody>
-				<nav>
+				<p>Post list</p>
+
 					{% if pagination %}
 					<div class="pagination">
 					{{ macros.pagination_widget(pagination, '.blog_admin') }}
 					</div>
 					{% endif %}
-				</nav>
 				{% for post in posts %}
 				<tr>
 				<td>
@@ -92,11 +92,14 @@
 			</tbody>
 
 		</table>
-
+		<hr>
 		<div class="row">
+			<div><p>Category management:</p></div>
+			<hr>
   			<div class="col-md-3">{{ wtf.quick_form(addCategoryForm) }}</div>
   			<div class="col-md-5">
 			<table class="table table-striped">
+				<p>Category list</p>
 				<tbody>
   					{% for category in categories %}
 					<tr>

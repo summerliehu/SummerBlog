@@ -86,10 +86,12 @@ def edit_post(id):
 	form.validate_on_submit():
 		post.title = form.title.data
 		post.body=form.body.data
+		post.category = Category.query.get(form.category.data)
 		db.session.add(post)
 		return redirect(url_for('.post', id=id ))
 	form.title.data = post.title
 	form.body.data = post.body
+	form.category.data = post.category
 	return render_template('edit_post.html', form=form, post=post, user=user)
 
 @login_required
@@ -98,7 +100,8 @@ def new_post():
 	form = PostForm()
 	if current_user.can(Permission.WRITE_ARTICLES) and \
 	form.validate_on_submit():
-		post = Post(title=form.title.data, body=form.body.data, author=current_user._get_current_object())
+		post = Post(title=form.title.data, body=form.body.data, author=current_user._get_current_object(), \
+			category = Category.query.get(form.category.data))
 		db.session.add(post)
 	return render_template('new_post.html', form=form)
 

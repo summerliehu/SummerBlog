@@ -2,7 +2,7 @@
 ***
 ###概览
 SummerBlog是基于《Flask Web开发》这本书而构建的一个博客程序.
-我的开发环境是Ubuntu_16.04_64，程序还在OS X EI Captain 上测试通过。Python版本为2.7，依赖插件版本见requirements.txt.txt，未在其他系统和环境下进行测试。
+我的开发环境是Ubuntu_16.04_64，程序还在OS X EI Captain 上测试通过。Python版本为2.7，依赖插件版本见requirements.txt，未在其他系统和环境下进行测试。
 ###使用方法
 推荐在虚拟环境下运行。
 首先，将程序克隆至本地，然后进入Summerblog文件夹：

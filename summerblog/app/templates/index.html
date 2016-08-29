@@ -11,12 +11,13 @@
 
 {% for post in posts %}
     <hr>
-
 <div class="blog-post">
     <h2 class="blog-post-title"><a href="{{ url_for('main.post', id=post.id )}}">{{ post.title }}</a></h2>
     <p class="blog-post-meta">{{ moment(post.timestamp).fromNow() }} by 
         <a href="#">Admin</a>
     </p>
+    <p>Category:{{ post.category.category_name }}</p>
+    <div class="post-body">   
     <p>
     {% if post.body_html %}
         {{ post.body_html | safe | truncate(length, end='...') }}
@@ -25,6 +26,7 @@
     {% endif %}
     <a href="{{ url_for('main.post', id=post.id )}}">>>></a>
     </p>
+    </div>
 </div>
 {% endfor %}
 
