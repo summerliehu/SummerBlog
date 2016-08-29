@@ -196,6 +196,21 @@ class Category(db.Model):
 	def delete_category(self):
 		db.session.delete(self)
 		db.session.commit()
+
+class Tag(db.Model):
+	__tablename__ = 'tags'
+	id = db.Column(db.Integer, primary_key=True)
+	tag_name = db.Column(db.Text)
+	posts = db.relationship('Post', secondary='tags_to_posts', \
+		backref=db.backref('tags', lazy='dynamic'), lazy='dynamic')
+
+tags_to_posts = db.Table(
+	'tags_to_posts',
+	db.Column('tag_id', db.Integer, db.ForeignKey('tags.id')),
+	db.Column('post_id', db.Integer, db.ForeignKey('posts.id'))
+	)
+
+
 class Permission():
 	FOLLOW = 0x01
 	COMMENT = 0x02

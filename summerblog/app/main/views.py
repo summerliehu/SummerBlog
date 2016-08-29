@@ -1,8 +1,9 @@
 from flask import render_template, redirect, url_for, flash, abort, request, \
 	current_app
 from . import main
-from ..models import User, Role, Permission, Post, Category
-from .forms import EditProfileForm, EditProfileAdminForm, PostForm, EditCategoryForm
+from ..models import User, Role, Permission, Post, Category, Tag
+from .forms import EditProfileForm, EditProfileAdminForm, PostForm, EditCategoryForm, \
+	EditTagForm
 from flask_login import login_required, current_user
 from .. import db
 from ..decorators import admin_required
@@ -119,7 +120,7 @@ def delete_post(id):
 
 @login_required
 @admin_required
-@main.route('/delete-category/<int:id>', methods=['GET', 'POST'])
+@main.route('/edit-category/<int:id>', methods=['GET', 'POST'])
 def edit_category(id):
 	category = Category.query.get_or_404(id)
 	editCategoryForm = EditCategoryForm()
@@ -137,8 +138,9 @@ def edit_category(id):
 def delete_category(id):
 	category = Category.query.get_or_404(id)
 	if current_user.is_administrator():
-		category.delete_post()	
-		return redirect(request.args.get('next') or url_for('main.blog_admin'))
+		category.delete_category()	
+		#return redirect(request.args.get('next') or url_for('main.blog_admin'))
+		return redirect(url_for('main.blog_admin'))
 	else:
 		abort(403)
 
@@ -147,7 +149,9 @@ def delete_category(id):
 @main.route('/blog-admin', methods=['GET', 'POST'])
 def blog_admin():
 	addCategoryForm = EditCategoryForm()
+	addTagForm = EditTagForm()
 	categories = Category.query.order_by(Category.id.desc()).all()
+	tags = Tag.query.order_by(Tag.id.desc()).all()
 	page = request.args.get('page', 1, type=int)
 	next=url_for('main.blog_admin')
 	#posts = Post.query.order_by(Post.timestamp.desc()).all()
@@ -158,6 +162,11 @@ def blog_admin():
 	addCategoryForm.validate_on_submit():
 		category = Category(category_name=addCategoryForm.category_name.data)
 		db.session.add(category)
+		return redirect(url_for('.blog_admin'))
+	if current_user.is_administrator() and \
+	addTagForm.validate_on_submit():
+		tag = Tag(tag_name=addTagForm.tag_name.data)
+		db.session.add(tag)
 		return redirect(url_for('.blog_admin'))
 	return render_template('blog_admin.html', **locals())
 

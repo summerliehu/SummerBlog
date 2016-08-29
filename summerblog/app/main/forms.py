@@ -56,3 +56,7 @@ class PostForm(Form):
 class EditCategoryForm(Form):
 	category_name = StringField('Input category name:', validators=[Required()])
 	submit_category = SubmitField('Submit')
+
+class EditTagForm(Form):
+	tag_name = StringField('Input tag name:', validators=[Required()])
+	submit_tag = SubmitField('Submit')
