@@ -163,7 +163,15 @@ def delete_category(id):
 @admin_required
 @main.route('/edit-tag/<int:id>', methods=['GET', 'POST'])
 def edit_tag(id):
-	pass
+	tag = Tag.query.get_or_404(id)
+	form = EditTagForm()
+	if current_user.is_administrator() and \
+	form.validate_on_submit():
+		tag.tag_name = form.tag_name.data
+		db.session.add(tag)
+		return redirect(url_for('main.blog_admin'))
+	form.tag_name.data = tag.tag_name
+	return render_template('edit_tag.html', **locals())	
 
 @login_required
 @admin_required

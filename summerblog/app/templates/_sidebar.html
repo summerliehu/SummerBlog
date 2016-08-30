@@ -4,15 +4,28 @@
             <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
           </div>
           <div class="sidebar-module">
+            <hr>
             <h4>Categories</h4>
             <ol class="list-unstyled">
             {% for category in Category.query.all() %}
             <li><a href="#">{{ category.category_name }}</a></li>
             {% endfor %}
-
             </ol>
           </div>
+
           <div class="sidebar-module">
+          <hr>
+            <h4>Tags</h4>
+            {% for tag in Tag.query.all() %}
+            <div class="sidebar-tag">
+            <a href="#">{{ tag.tag_name }}</a>
+            </div>
+            {% endfor %}
+            <div class="clear"></div>
+          </div>
+
+          <div class="sidebar-module">
+          <hr>
             <h4>Elsewhere</h4>
             <ol class="list-unstyled">
               <li><a href="#">GitHub</a></li>
