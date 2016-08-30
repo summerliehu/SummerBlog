@@ -204,13 +204,11 @@ class Tag(db.Model):
 	posts = db.relationship('Post', secondary='tags_to_posts', \
 		backref=db.backref('tags', lazy='dynamic'), lazy='dynamic')
 
-	def delete_tag(self):
-		pass
-
 tags_to_posts = db.Table(
 	'tags_to_posts',
-	db.Column('tag_id', db.Integer, db.ForeignKey('tags.id')),
-	db.Column('post_id', db.Integer, db.ForeignKey('posts.id'))
+	db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), nullable=False),
+	db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), nullable=False),
+	db.PrimaryKeyConstraint('post_id', 'tag_id')
 	)
 
 
