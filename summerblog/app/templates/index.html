@@ -16,7 +16,11 @@
     <p class="blog-post-meta">{{ moment(post.timestamp).fromNow() }} by 
         <a href="#">Admin</a>
     </p>
-    <p>Category: {{ post.category.category_name }}</p>
+    <p>Category: {{ post.category.category_name }}   Tag:
+    {% for tag in post.tags.all() %}
+        {{ tag.tag_name }}
+    {% endfor %}
+    </p>
     <div class="post-body">   
     <p>
     {% if post.body_html %}

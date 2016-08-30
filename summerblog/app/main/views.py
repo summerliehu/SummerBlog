@@ -90,9 +90,9 @@ def edit_post(id):
 		post.category = Category.query.get(form.category.data)
 		db.session.add(post)
 		db.session.commit()
-		addtags = form.add_tags.data.split(" ")
+		addtags = form.add_tags.data.split()
 		for tag in addtags:
-			if Tag.query.filter_by(tag_name=tag):
+			if Tag.query.filter_by(tag_name=tag).first():
 				oldtag = Tag.query.filter_by(tag_name=tag).first()
 				post.tags.append(oldtag)
 				db.session.add(post)
