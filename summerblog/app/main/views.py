@@ -208,8 +208,10 @@ def delete_tag(id):
 #		db.session.commit()
 		all_posts = tag.posts.all()
 		for post in all_posts:
-			post.tags.delete(tag)
+			post.tags.remove(tag)
 			db.session.add(post)
+		db.session.commit()
+		db.session.delete(tag)
 		db.session.commit()
 		return redirect(request.args.get('next') or url_for('main.blog_admin'))
 	else:

@@ -24,6 +24,11 @@
     .clear{
         clear: both;
     }
+    a{color: #000;}
+    a:hover{
+        text-decoration:none;
+        color: #337ab7;
+    }
 </style>
 {% endblock %}
 {% block navbar %}
@@ -67,7 +72,7 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="blog-title">Summer's Blog</h1>
+    <h1 class="blog-title"><a href="{{ url_for('main.index')}}">Summer's Blog</a></h1>
     <p class="lead ">Knowledge is power, France is bacon!</p>
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">

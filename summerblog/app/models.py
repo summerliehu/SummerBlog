@@ -180,8 +180,12 @@ class Post(db.Model):
 						'h1', 'h2', 'h3', 'h4', 'p']
 		target.body_html = bleach.linkify(bleach.clean(markdown(value, \
 			output_format='html'),tags=allowed_tags, strip=True))
-
 	def delete_post(self):
+		tags = self.tags.all()
+		for tag in tags:
+			self.tags.remove(tag)
+			db.session.add(self)
+		db.session.commit()
 		db.session.delete(self)
 		db.session.commit()
 
@@ -206,8 +210,10 @@ class Tag(db.Model):
 
 tags_to_posts = db.Table(
 	'tags_to_posts',
-	db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), nullable=False),
-	db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), nullable=False),
+#	db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), nullable=False),
+#	db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), nullable=False),
+	db.Column('tag_id', db.Integer, db.ForeignKey('tags.id')),
+	db.Column('post_id', db.Integer, db.ForeignKey('posts.id')),
 	db.PrimaryKeyConstraint('post_id', 'tag_id')
 	)
 
