@@ -119,6 +119,22 @@ def new_post():
 		post = Post(title=form.title.data, body=form.body.data, author=current_user._get_current_object(), \
 			category = Category.query.get(form.category.data))
 		db.session.add(post)
+		db.session.commit()				
+		addtags = form.add_tags.data.split()
+		for tag in addtags:
+			if Tag.query.filter_by(tag_name=tag).first():
+				oldtag = Tag.query.filter_by(tag_name=tag).first()
+				post.tags.append(oldtag)
+				db.session.add(post)
+				db.session.commit()
+			else:
+				newtag = Tag(tag_name=tag)
+				db.session.add(newtag)
+				db.session.commit()
+				post.tags.append(newtag)
+				db.session.add(post)
+				db.session.commit()		
+		db.session.add(post)
 	return render_template('new_post.html', form=form)
 
 
