@@ -54,5 +54,5 @@ python manage.py db migrate
 python manage.py db upgrade
 ```
 程序运行界面如下所示：
-![screenshot](https://raw.githubusercontent.com/summerliehu/SummerBlog/master/sshot.png)
+![screenshot](https://raw.githubusercontent.com/summerliehu/SummerBlog/master/shot.png)
 
