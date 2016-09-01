@@ -66,14 +66,12 @@
 			{{ message }}
 	    </div>
 	    {% endfor %}
-		<div>
-			<a href="{{ url_for('main.new_post') }}"><button type="button" class="btn btn-sm btn-default">New post</button></a>
-			<hr>
-		</div>
+
 
 		<table class="table table-striped">
 			<tbody>
-				<p>Post list</p>
+				<p>Post list&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<a href="{{ url_for('main.new_post') }}"><button type="button" class="btn btn-sm btn-default">New post</button></a></p>		
 
 					{% if pagination %}
 					<div class="pagination">
@@ -96,7 +94,9 @@
 		<div class="row">
 			<hr>
 			<div><h4>Category management:</h4></div>
-  			<div class="col-md-3">{{ wtf.quick_form(addCategoryForm) }}</div>
+  			<div class="col-md-3">
+			<h5>New category:</h5>
+  			{{ wtf.quick_form(addCategoryForm) }}</div>
   			<div class="col-md-5">
 				<table class="table table-striped">
 					<p>Category list</p>
@@ -121,7 +121,9 @@
 		<div class="row">
 			<hr>
 			<div><h4>Tag management:</h4></div>
-  			<div class="col-md-3">{{ wtf.quick_form(addTagForm) }}</div>
+  			<div class="col-md-3">
+  			<h5>New tag:</h5>
+			{{ wtf.quick_form(addTagForm) }}</div>
   			<div class="col-md-5">
 				<table class="table table-striped">
 					<p>Tag list</p>

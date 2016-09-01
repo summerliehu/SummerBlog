@@ -6,7 +6,7 @@
           <div class="sidebar-module">
             <hr>
             <h4>Categories</h4>
-            <ol class="list-unstyled">
+            <ol class="list-unstyled sidebar-category">
             {% for category in Category.query.all() %}
             <li><a href="#">{{ category.category_name }}</a></li>
             {% endfor %}
