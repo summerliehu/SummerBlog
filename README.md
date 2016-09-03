@@ -40,7 +40,7 @@ $ source venv/bin/activate
 #数据库创建完毕，在本地出现 data-dev.sqlite文件，此时退出python shell即可开始服务器的运行
 (venv) $ python manage.py runserver
 ```
-未登录的用户无法看到登录和注册的入口，管理员注册需要使用config.py文件中定义的管理员邮箱进行注册。使用默认配置的开发者可以使用以下测试邮箱注册账号：
+未登录的用户无法看到登录和注册的入口，管理员注册需要使用config.py文件中定义的管理员邮箱进行注册（请在使用时修改这个变量）。使用默认配置的开发者可以使用以下测试邮箱注册账号：
 
 邮箱：test_flask2@sina.com
 
